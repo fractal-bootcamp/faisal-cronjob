@@ -3,14 +3,20 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
+const EMAIL_USER = 'faisal@owimer.co';
+const EMAIL_PASSWORD = 'oypx avru whws qxuq';
+const SENDER_NAME = 'Faisal Owimer';
+const RECIPIENT_NAME = 'Faisal';
+
+
 // Create reusable transporter object using SMTP transport
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com', // Gmail SMTP host
     port: 587, // Port for secure SMTP
     secure: false, // true for 465, false for other ports
     auth: {
-        user: process.env.EMAIL_USER, // Your email address
-        pass: process.env.EMAIL_PASSWORD // Your email password or app-specific password
+        user: EMAIL_USER, // Your email address
+        pass: EMAIL_PASSWORD // Your email password or app-specific password
     }
 });
 
@@ -31,7 +37,7 @@ const sendEmail = async (params: EmailParams) => {
     try {
         // Configure mail options
         const mailOptions = {
-            from: `"${process.env.SENDER_NAME}" <${process.env.EMAIL_USER}>`,
+            from: `"${SENDER_NAME}" <${EMAIL_USER}>`,
             to: params.toEmail,
             subject: params.subject,
             text: params.textContent,
@@ -57,7 +63,7 @@ const daysLeft = `${Math.ceil(diffTime / (1000 * 60 * 60 * 24))}`;
 const daysLeftPlural = daysLeft === '1' ? 'Day' : 'Days';
 console.log(daysLeft);
 
-// Create HTML content with better styling
+// Create HTML content with modern styling
 const htmlContent = `
 <!DOCTYPE html>
 <html>
@@ -111,7 +117,7 @@ const htmlContent = `
             ${daysLeft} ${daysLeftPlural} Left!
         </div>
         <div class="message">
-            <p>Hey Faisal! 👋</p>
+            <p>Hey ${RECIPIENT_NAME}! 👋</p>
             <p>Your journey to becoming a Fullstack Engineer continues!</p>
             <p>Keep pushing forward and building amazing things! 💪</p>
         </div>
@@ -124,7 +130,7 @@ const htmlContent = `
 `;
 
 sendEmail({
-    toEmail: 'faisal@owimer.co',
+    toEmail: EMAIL_USER,
     subject: `Fractal Bootcamp – ${daysLeft} ${daysLeftPlural} Left!`,
     textContent: `Faisal, you have ${daysLeft} ${daysLeftPlural} left to be a Fullstack Engineer. Keep ripping code!`,
     htmlContent: htmlContent
